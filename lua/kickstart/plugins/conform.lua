@@ -24,18 +24,41 @@ return {
           return nil
         else
           return {
-            timeout_ms = 500,
+            timeout_ms = 5000,
             lsp_format = 'fallback',
           }
         end
       end,
+      -- Fix styler
+      formatters = {
+        runic = {
+          command = 'julia',
+          args = { '--startup-file=no', '--project=@runic', '-e', 'using Runic; exit(Runic.main(ARGS))' },
+        },
+        styler = {
+          -- hijacking "https://github.com/devOpifex/r.nvim",
+          args = { '-s', '-e', 'styler::style_file(commandArgs(TRUE),indent_by=4L)', '--args', '$FILENAME' },
+          stdin = false,
+        },
+        -- I'm not using this but I could use this instead of the styler where I control all of it.
+        -- Right now I'm just changing the behavior of styler above instead.
+        my_styler = {
+          command = 'R',
+          args = { '-s', '-e', 'styler::style_file(commandArgs(TRUE))', '--args', '$FILENAME' },
+          stdin = false,
+        },
+      },
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
+        python = { 'isort', 'black' },
+        r = { 'styler' },
+        quarto = { 'styler' },
+        julia = { 'runic' },
+        html = { 'htmlbeautifier', 'html_beautify' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },

@@ -30,6 +30,10 @@ return {
       'saghen/blink.cmp',
     },
     config = function()
+      -- Manually enable the julia lsp which uses the @nvim-lspconfig environment
+      -- This doesn't start the server but tells nvim to launch it once the file type is correct.
+      vim.lsp.enable 'julials'
+
       -- Brief aside: **What is LSP?**
       --
       -- LSP is an initialism you've probably heard, but might not understand what it is.
@@ -210,7 +214,7 @@ return {
       local servers = {
         -- clangd = {},
         -- gopls = {},
-        -- pyright = {},
+        pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -218,9 +222,11 @@ return {
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
+        ts_ls = {},
         --
 
+        r_language_server = {},
+        docker_compose_language_service = {},
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },

@@ -51,4 +51,18 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- When highlighted something you can move the entire thing
+-- by navigating with capital j and k
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
+
+-- Figlet stuff
+vim.keymap.set('n', '<leader>if', function()
+  vim.api.nvim_command(':r !figlet ' .. vim.fn.input 'Figlet me: ' .. " | sed -e 's/^/\\# /g'")
+end)
+
+-- Change file as executable
+--vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true })
+
 -- vim: ts=2 sts=2 sw=2 et
